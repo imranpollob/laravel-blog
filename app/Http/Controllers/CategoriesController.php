@@ -42,6 +42,8 @@ class CategoriesController extends Controller
 
         Category::create($request->all());
 
+        session()->flash('success', 'Category created successfully');
+
 
         return redirect()->route('category.index');
     }
@@ -83,6 +85,9 @@ class CategoriesController extends Controller
 
         $category->save();
 
+        session()->flash('success', 'Category edited successfully');
+
+
         return redirect()->route('category.index');
     }
 
@@ -95,6 +100,9 @@ class CategoriesController extends Controller
     public function destroy($id)
     {
         Category::find($id)->delete();
+
+        session()->flash('success', 'Category deleted successfully');
+
 
         return redirect()->route('category.index');
     }

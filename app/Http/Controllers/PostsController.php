@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Category;
+use App\Post;
 use Illuminate\Http\Request;
 
 class PostsController extends Controller
@@ -23,7 +25,7 @@ class PostsController extends Controller
      */
     public function create()
     {
-        return view('admin.posts.create');
+        return view('admin.posts.create')->with('categories', Category::all());
     }
 
     /**
@@ -36,11 +38,27 @@ class PostsController extends Controller
     {
         $this->validate($request, [
            'title' => 'required',
+           'category_id' => 'required',
            'featured' => 'required|image',
            'content' => 'required'
         ]);
 
-        dd($request->all());
+
+        $featured = $request->featured;
+        $featured_new = time().$featured->getClientOriginalName();
+        $featured->move('uploads/posts', $featured_new);
+
+
+        Post::create([
+            'title' => $request->title,
+            'category_id' => $request->category_id,
+            'featured' => 'uploads/posts/'.$featured_new,
+            'content' => request('content')
+        ]);
+
+        session()->flash('success', 'Post created successfully');
+
+        return redirect()->back();
     }
 
     /**

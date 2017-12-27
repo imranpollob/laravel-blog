@@ -12,16 +12,17 @@
 
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/toastr.min.css') }}" rel="stylesheet">
 </head>
 <body>
-    <div id="app">
+<div id="app">
 
-        @include('partials.nav')
+    @include('partials.nav')
 
-        <div class="container">
-            <div class="row">
+    <div class="container">
+        <div class="row">
 
-                @if(Auth::check())
+            @if(Auth::check())
                 <div class="col-md-4">
                     <ul class="list-group">
                         <li class="list-group-item">
@@ -41,19 +42,25 @@
                         </li>
                     </ul>
                 </div>
-                @endif
+            @endif
 
-                <div class="col-md-8">
-                    @include('partials.error')
+            <div class="col-md-8">
+                @include('partials.error')
 
-                    @yield('content')
-                </div>
+                @yield('content')
             </div>
         </div>
-
     </div>
 
-    <!-- Scripts -->
-    <script src="{{ asset('js/app.js') }}"></script>
+</div>
+
+<!-- Scripts -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<script src="{{ asset('js/toastr.min.js') }}"></script>
+<script>
+    @if(session()->has('success'))
+        toastr.success('{{ session()->get('success') }}');
+    @endif
+</script>
 </body>
 </html>
