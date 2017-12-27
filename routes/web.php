@@ -13,5 +13,7 @@ Route::group(['prefix' => 'admin', 'middleware' => 'auth'], function () {
 
     Route::resource('post', 'PostsController');
 
+    Route::resource('category', 'CategoriesController');
+
 });
 
